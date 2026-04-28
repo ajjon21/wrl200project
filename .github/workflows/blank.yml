@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 80
           source: "./"
-          target: "/home/sfl5-node/htdocs/sfl5n.ncgrp.xyz/week08"
+          target: "/home/s2134588-node/htdocs/s2134588n.ncgrp.xyz/empapp"
           strip_components: 1
 
       - name: 🐳 Build & restart Docker container on server
