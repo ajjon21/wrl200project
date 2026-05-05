@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
           source: "./"
-          target: "/home/s2134588-node/htdocs/s2134588n.ncgrp.xyz/empapp"
+          target: "/home/s2134588/htdocs/s2134588n.ncgrp.xyz/"
           strip_components: 1
 
       - name: 🐳 Build & restart Docker container on server
@@ -35,8 +35,8 @@ jobs:
           script: |
             set -e
 
-            APP_DIR="/home/s2134588-node/htdocs/s2134588n.ncgrp.xyz/empapp"
-            CONTAINER_NAME="grp01img-app"
+            APP_DIR="/home/s2134588/htdocs/s2134588n.ncgrp.xyz/"
+            CONTAINER_NAME="grp01-img-app"
             IMAGE_NAME="empapp-app:latest"
 
             cd "$APP_DIR"
@@ -46,20 +46,16 @@ jobs:
             echo "Files:"
             ls -la
 
-            # Ensure Dockerfile exists before build
             if [ ! -f Dockerfile ]; then
               echo "ERROR: Dockerfile not found in $APP_DIR"
               exit 1
             fi
 
-            # Stop and remove old container (safe on first run)
             docker stop "$CONTAINER_NAME" || true
             docker rm "$CONTAINER_NAME" || true
 
-            # Build latest image
             docker build -t "$IMAGE_NAME" .
 
-            # Run new container
             docker run -d \
               --name "$CONTAINER_NAME" \
               --restart unless-stopped \
